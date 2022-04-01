@@ -1,0 +1,47 @@
+.attribute-edit{
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	&-content{
+		width: 100%;
+		height:100%;
+		h2{
+			width: 100%;
+			height: 35px;
+			background-color: var(--main-main-color);
+			color: white;
+			font-size: 15px;
+			line-height: 35px;
+			text-align: center;
+			margin: 0;
+			letter-spacing: 2px;
+			opacity: 0.8;
+		}
+		&-list{
+			display: flex;
+			justify-content:space-between;
+			
+			margin: 20px 0;
+			span{
+				color: white;
+				opacity: 0.6;
+				margin-right: 10px;
+				
+			}
+			input{
+				border: 1px solid var(--main-main-color);
+				height: 25px;
+				outline: none;
+				background: transparent;
+				border-radius: 3px;
+				font-size: 15px;
+				color: white;
+				padding: 0 5px;
+				box-sizing: border-box;
+			}
+		}
+	}
+	
+	
+	
+}
