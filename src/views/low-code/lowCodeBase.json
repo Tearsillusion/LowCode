@@ -8,19 +8,22 @@
 			"left":100,
 			"top":100,
 			"zIndex":1,
-			"key":"text"
+			"key":"text",
+			"show":0
 		},
 		{
 			"left":200,
 			"top":200,
 			"zIndex":1,
-			"key":"button"
+			"key":"button",
+			"show":0
 		},
 		{
 			"left":300,
 			"top":300,
 			"zIndex":1,
-			"key":"input"
+			"key":"input",
+			"show":0
 		}
 	]
 }

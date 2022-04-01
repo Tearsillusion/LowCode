@@ -23,7 +23,13 @@ export function attribute(block:any){
 				width:'',
 				height:'',
 				color:'',
-				fontSize:''
+				fontSize:'',
+				padding:'',
+				background:'',
+				borderWidth:'',
+				borderColor:'',
+				borderType:'',
+				borderRadius:'',
 			}
 		}],
 	})
@@ -44,7 +50,13 @@ export function attribute(block:any){
 				width:'',
 				height:'',
 				color:'',
-				fontSize:''
+				fontSize:'',
+				padding:'',
+				background:'',
+				borderWidth:'',
+				borderColor:'',
+				borderType:'',
+				borderRadius:'',
 			}
 		}],
 		
@@ -56,8 +68,9 @@ export function attribute(block:any){
 			children:{
 				class:'',
 				title:'',
-				value:'',
-				placeholder:''
+				text:'',
+				placeholder:'',
+				type:''
 			}
 		},{
 			name:'基本属性',
@@ -67,7 +80,13 @@ export function attribute(block:any){
 				width:'',
 				height:'',
 				color:'',
-				fontSize:''
+				fontSize:'',
+				padding:'',
+				background:'',
+				borderWidth:'',
+				borderColor:'',
+				borderType:'',
+				borderRadius:'',
 			}
 		}],
 		

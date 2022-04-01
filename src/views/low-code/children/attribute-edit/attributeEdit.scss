@@ -22,13 +22,17 @@
 			justify-content:space-between;
 			
 			margin: 20px 0;
+			box-sizing: border-box;
 			span{
 				color: white;
 				opacity: 0.6;
 				margin-right: 10px;
+				width: 105px;
+				overflow: hidden;
 				
 			}
 			input{
+				width: calc(100% - 105px);
 				border: 1px solid var(--main-main-color);
 				height: 25px;
 				outline: none;

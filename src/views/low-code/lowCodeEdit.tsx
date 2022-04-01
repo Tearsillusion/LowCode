@@ -11,6 +11,7 @@ import {useFocus} from './main/useFocus'
 import {useMove} from './main/useMove'
 import {useCommand} from './main/useCommand'
 import {useDraw} from './main/useDraw'
+import {useCopy} from './main/useCopy'
 export default defineComponent({
 	components:{
 		workBlock,
@@ -50,15 +51,20 @@ export default defineComponent({
 		// 实现撤销
 		let { state } = useCommand(data)
 		// 实现拖拽放大缩小
-		let useDrow = useDraw(focusComputed,data)
-		
+		useDraw(focusComputed,data)
+		// 实现快捷键复制和撤销功能
+		useCopy(selectBlock,data,(val:number)=>{
+			if(val === 1){
+				state.commandList.undo()
+			}else{
+				state.commandList.redo()
+			}
+		})
 		// 撤销,前进
 		let buttonList = [
 			{label:'撤销',keyBoard:'ctrl+z',render:()=>{state.commandList.undo()}},
 			{label:'反撤',keyBoard:'ctrl+q',render:()=>{state.commandList.redo()}},
 		] as any[]
-		
-		console.log(selectBlock)
 		// 接受拖拽开始的数据
 		return ()=> <div class="low-code-container">
 						<div class="low-code-container-top">
@@ -95,15 +101,17 @@ export default defineComponent({
 									<div onMousedown = {workMousedown} ref={workCanvasRef}   style={canvasStyle.value}  class="low-code-container-bottom-work-canvas">
 										{
 											data.value.blocks.map((block:any,index:number)=>{
-												return (
-													<workBlock
-													 blocks={block}
-													 focus={focusComputed}
-													 class={block.focus?'block-focus':''}
-													 onMousedown = {(e:any)=>{blockMousedown(e,block,index)}}
-													 >
-													 </workBlock> 
-												)
+												if(block.show!==0){
+													return (
+														<workBlock
+														 blocks={block}
+														 focus={focusComputed}
+														 class={block.focus?'block-focus':''}
+														 onMousedown = {(e:any)=>{blockMousedown(e,block,index)}}
+														 >
+														 </workBlock> 
+													)
+												}
 											})
 										}
 										

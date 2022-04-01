@@ -9,17 +9,36 @@ export default defineComponent({
 		focus:{type:Object as any}
 	},
 	setup(props){
-		console.log(props)
+		console.log()
 		let blockRef = ref<any>(null)
-		
-		const blockStyle:Ref<any> = computed(()=>({
+		//外部基本样式
+		const externalStyle:Ref<any> = computed(()=>({
 			left:`${props.blocks.left}px`,
 			top:`${props.blocks.top}px`,
 			zIndex:`${props.blocks.zIndex}px`,
+		}))
+		// 内部基本样式
+		const insideStyle:Ref<any> = computed(()=>({
 			width:`${props.blocks.width}px`,
 			height:`${props.blocks.height}px`,
+			color:`${props.blocks.color}`,
+			fontSize:`${props.blocks.fontSize}px`,
+			padding:`${props.blocks.padding}px`,
+			background:`${props.blocks.background}`,
+			borderWidth:`${props.blocks.borderWidth}px`,
+			borderColor:`${props.blocks.borderColor}`,
+			borderType:`${props.blocks.borderType}`,
+			borderRadius:`${props.blocks.borderRadius}px`,
+			
 		}))
-		
+		// 标签属性
+		const attbutes:Ref<any> = computed(()=>({
+			className:`${props.blocks.class?props.blocks.class:""}`,
+			text:`${props.blocks.text?props.blocks.text:""}`,
+			title:`${props.blocks.title?props.blocks.title:""}`,
+			placeholder:`${props.blocks.placeholder?props.blocks.placeholder:""}`,
+			type:`${props.blocks.type?props.blocks.type:""}`,
+		}))
 		
 		
 		let mapping:any = inject('mapping')
@@ -63,13 +82,11 @@ export default defineComponent({
 		] as any
 		
 		return(props:any)=>{
+			
+			
 			 let componentMain = mapping.componentMap[props.blocks.key]
-			 let componentBlock = componentMain.render({
-				 width:blockStyle.value.width,
-				 height:blockStyle.value.height
-			 })
-			 console.log(1111)
-			 return <div ref={blockRef} class="block" style={blockStyle.value}>
+			 let componentBlock = componentMain.render(insideStyle.value,attbutes.value)
+			 return <div ref={blockRef}  title={attbutes.value.title}  class={attbutes.value.className+' block'}  style={externalStyle.value}>
 					{componentBlock}
 					
 					{

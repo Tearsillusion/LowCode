@@ -8,14 +8,28 @@ export default defineComponent({
 	},
 	setup(props,{emit}){
 		
+		const onKeypress = (e:any,key:string)=>{
+			props.blocks[key] = Number(e.target.value)?Number(e.target.value):e.target.value
+		}
+		
+		
 		
 		return ()=>{
 			let {state} = attribute(props.blocks)
 			console.log(state.attributes[props.blocks.key])
 			let attributeData = state.attributes[props.blocks.key].attribute
 			let attributeCode = [] as any[]
-			
-			
+			console.log(attributeData)
+			attributeData.map((res:any)=>{
+				for(let k in res.children){
+					for(let m in props.blocks){
+						if(m === k){
+							res.children[k] = props.blocks[m]
+						}
+					}
+				}
+			})
+			console.log(attributeData)
 				
 			
 			return <div class="attribute-edit">
@@ -29,7 +43,7 @@ export default defineComponent({
 											return(
 												<div class="attribute-edit-content-list">
 													<span>{item}:</span>
-													<input value={res.children[item]} />
+													<input onKeypress={(e:any)=>{onKeypress(e,item)}} value={res.children[item]} />
 												</div>
 											)
 										})
