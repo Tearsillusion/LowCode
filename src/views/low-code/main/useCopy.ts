@@ -1,7 +1,7 @@
 import deepcopy from 'deepcopy';
 import bus from '../../../public/bus'
 import {onUnmounted} from 'vue'
-export function useCopy(selectBlock:any,data:any,callback:any){
+export function useCopy(focusComputed:any,data:any,callback:any){
 	
 	let saveSelectBlock = null as any
 	
@@ -9,17 +9,34 @@ export function useCopy(selectBlock:any,data:any,callback:any){
 		console.log(e)
 		// ctrl + c
 		if(e.ctrlKey && e.which === 67){
-			if(selectBlock.value){
-				saveSelectBlock = deepcopy(selectBlock.value)
+			if(focusComputed.value.focus){
+				saveSelectBlock = deepcopy(focusComputed.value.focus)
 				bus.emit('start')
 			}
 		}
 		// ctrl + v
 		if(e.ctrlKey && e.which === 86){
 			if(saveSelectBlock){
-				data.value.blocks.push(saveSelectBlock)
+				saveSelectBlock.map((res:any)=>data.value.blocks.push(res))
 				bus.emit('end')
 			}	
+		}
+		// ctrl + x 删除
+		if(e.ctrlKey && e.which === 88){
+			if(focusComputed.value.focus){
+				saveSelectBlock = deepcopy(focusComputed.value.focus)
+				bus.emit('start')
+			}
+			if(saveSelectBlock){
+				saveSelectBlock.forEach((val:any,k:number)=>{
+					data.value.blocks.forEach((res:any,index:number)=>{
+						if(JSON.stringify(res) === JSON.stringify(val)){
+							data.value.blocks.splice(index,1)
+						}
+					})
+				})
+				bus.emit('end')
+			}
 		}
 		// ctrl + z 撤销
 		if(e.ctrlKey && e.which === 90){
@@ -29,6 +46,7 @@ export function useCopy(selectBlock:any,data:any,callback:any){
 		if(e.ctrlKey && e.which === 89){
 			callback(2)	
 		}
+		
 	}
 	document.addEventListener("keydown", onkeydown)
 	onUnmounted(()=>{

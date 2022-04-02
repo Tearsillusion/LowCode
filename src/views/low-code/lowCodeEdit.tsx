@@ -53,7 +53,7 @@ export default defineComponent({
 		// 实现拖拽放大缩小功能
 		useDraw(focusComputed,data)
 		// 实现快捷键复制和撤销功能
-		useCopy(selectBlock,data,(val:number)=>{
+		useCopy(focusComputed,data,(val:number)=>{
 			if(val === 1){
 				state.commandList.undo()
 			}else{
