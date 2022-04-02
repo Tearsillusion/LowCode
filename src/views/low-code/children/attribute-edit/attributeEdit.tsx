@@ -16,10 +16,9 @@ export default defineComponent({
 		
 		return ()=>{
 			let {state} = attribute(props.blocks)
-			console.log(state.attributes[props.blocks.key])
 			let attributeData = state.attributes[props.blocks.key].attribute
 			let attributeCode = [] as any[]
-			console.log(attributeData)
+			
 			attributeData.map((res:any)=>{
 				for(let k in res.children){
 					for(let m in props.blocks){
@@ -29,8 +28,6 @@ export default defineComponent({
 					}
 				}
 			})
-			console.log(attributeData)
-				
 			
 			return <div class="attribute-edit">
 					{

@@ -22,7 +22,7 @@ export let registerConfig =  createdConfig()
 registerConfig.register({
 	label:'文本',
 	originally:()=>'预览文本',
-	render:(styleValue:any,attbutes:any)=><span style={styleValue}>{attbutes.text?attbutes.text:'预览文本'}</span>,
+	render:(styleValue:any,attbutes:any)=><div style={styleValue}>{attbutes.text?attbutes.text:'预览文本'}</div>,
 	key:'text',
 })
 // button

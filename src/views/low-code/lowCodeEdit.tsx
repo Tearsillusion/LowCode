@@ -46,11 +46,11 @@ export default defineComponent({
 		let {blockMousedown,workMousedown,focusComputed,selectBlock} = useFocus(data,(e:any)=>{
 			mousedownMain(e)
 		})
-		// 实现移动
+		// 实现移动和辅助线功能
 		let {mousedownMain,lineTip}  = useMove(focusComputed,selectBlock,data)
-		// 实现撤销
+		// 实现撤销功能
 		let { state } = useCommand(data)
-		// 实现拖拽放大缩小
+		// 实现拖拽放大缩小功能
 		useDraw(focusComputed,data)
 		// 实现快捷键复制和撤销功能
 		useCopy(selectBlock,data,(val:number)=>{
@@ -60,10 +60,10 @@ export default defineComponent({
 				state.commandList.redo()
 			}
 		})
-		// 撤销,前进
+		// 撤销,还原
 		let buttonList = [
 			{label:'撤销',keyBoard:'ctrl+z',render:()=>{state.commandList.undo()}},
-			{label:'反撤',keyBoard:'ctrl+q',render:()=>{state.commandList.redo()}},
+			{label:'还原',keyBoard:'ctrl+q',render:()=>{state.commandList.redo()}},
 		] as any[]
 		// 接受拖拽开始的数据
 		return ()=> <div class="low-code-container">
