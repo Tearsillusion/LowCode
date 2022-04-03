@@ -1,6 +1,6 @@
 import deepcopy from 'deepcopy';
 import bus from '../../../public/bus'
-import {onUnmounted} from 'vue'
+import {onUnmounted,onMounted} from 'vue'
 export function useCopy(focusComputed:any,data:any,callback:any){
 	
 	let saveSelectBlock = null as any
@@ -48,9 +48,20 @@ export function useCopy(focusComputed:any,data:any,callback:any){
 		}
 		
 	}
+	// 移除keydown事件
+	const removeKeypress = (val:any)=>{
+		if(val === 1){
+			document.removeEventListener("keydown", onkeydown)
+		}else{
+			document.addEventListener("keydown", onkeydown)
+		}
+	}
+	bus.on("removeKeypress",removeKeypress)
+	
 	document.addEventListener("keydown", onkeydown)
 	onUnmounted(()=>{
 		document.removeEventListener("keydown", onkeydown)
+		bus.off("removeKeypress",removeKeypress)
 	})
 	return;
 }

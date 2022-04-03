@@ -17,6 +17,7 @@ export function useMenuDrag(workCanvasRef:any,data:any){
 		// 离开目标元素
 	}
 	const drop = function(e:any){
+		console.log(e)
 		// 放下
 		let blocks = data.value.blocks
 		data.value = {

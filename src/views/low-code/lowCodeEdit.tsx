@@ -1,4 +1,4 @@
-import {computed,defineComponent,ref,Ref,inject} from 'vue' 
+import {computed,defineComponent,ref,Ref,inject,nextTick,onUnmounted} from 'vue' 
 import './lowCodeEdit.scss'
 import bus from '../../public/bus'
 import workBlock from './children/work-block/workBlock'
@@ -12,6 +12,8 @@ import {useMove} from './main/useMove'
 import {useCommand} from './main/useCommand'
 import {useDraw} from './main/useDraw'
 import {useCopy} from './main/useCopy'
+import {usePreview} from './main/usePreview'
+
 export default defineComponent({
 	components:{
 		workBlock,
@@ -23,6 +25,8 @@ export default defineComponent({
 	},
 	setup(props,ctx){
 		let workCanvasRef = ref<any>(null)
+		let workPreviewRef = ref<any>(null)
+		let previewShow = ref<any>(false)
 		let workCanvas = null as any
 		let data: Ref<any> = computed({
 			get(){
@@ -33,9 +37,10 @@ export default defineComponent({
 			}
 		})
 		
-		const canvasStyle = computed(()=>({
+		const canvasStyle:Ref<any> = computed(()=>({
 				width:data.value.content.width+'px',
-				height:data.value.content.height+'px'
+				height:data.value.content.height+'px',
+				background:data.value.content.background
 			}))
 		
 		let mapping:any = inject('mapping')
@@ -60,15 +65,33 @@ export default defineComponent({
 				state.commandList.redo()
 			}
 		})
+		// 预览
+		let {previewClick,previewModelClick} = usePreview(previewShow,workCanvasRef,workPreviewRef)
+		
 		// 撤销,还原
 		let buttonList = [
 			{label:'撤销',keyBoard:'ctrl+z',render:()=>{state.commandList.undo()}},
 			{label:'还原',keyBoard:'ctrl+q',render:()=>{state.commandList.redo()}},
+			{label:'预览',keyBoard:'ctrl+r',render:()=>{previewClick()}},
 		] as any[]
 		// 接受拖拽开始的数据
-		return ()=> <div class="low-code-container">
+		return ()=> {
+			let previewCode = null
+			if(previewShow.value){
+				previewCode = (
+					<div class="low-code-container-preview" ref={workPreviewRef}>
+						<div onClick = {previewModelClick} class="low-code-container-preview-model"></div>
+					</div>
+				)
+			}
+			return<div class="low-code-container">
+						{/*预览区*/}
+						{previewCode}
 						<div class="low-code-container-top">
 							<div class="low-code-container-top-left">
+								
+							</div>
+							<div class="low-code-container-top-center">
 								{
 									buttonList.map((res:any)=>{
 										
@@ -79,10 +102,9 @@ export default defineComponent({
 									})
 								}
 							</div>
-							<div class="low-code-container-top-center">
+							<div class="low-code-container-top-right">
 								
 							</div>
-							<div class="low-code-container-top-right"></div>
 						</div>
 						<div class="low-code-container-bottom">
 							{/*组件区*/}
@@ -114,11 +136,11 @@ export default defineComponent({
 												}
 											})
 										}
-										
+										{lineTip.x!==null?<div class="line-x" style={{top:lineTip.x+'px'}}></div>:''}
+										{lineTip.y!==null?<div class="line-y" style={{left:lineTip.y+'px'}}></div>:''}
 									</div>
 								</div>
-								{lineTip.x!==null?<div class="line-x" style={{top:lineTip.x+'px'}}></div>:''}
-								{lineTip.y!==null?<div class="line-y" style={{left:lineTip.y+'px'}}></div>:''}
+								
 							</div>
 							{/*属性区*/}
 							<div class="low-code-container-bottom-attribute">
@@ -127,6 +149,7 @@ export default defineComponent({
 									return (
 										 <attributeEdit
 											blocks={block}
+											canvas={data.value.content}
 										 ></attributeEdit>
 									)
 								})
@@ -135,6 +158,7 @@ export default defineComponent({
 							</div>
 						</div>
 					</div>
+			}
 	}
 	
 	

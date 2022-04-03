@@ -27,7 +27,6 @@ export function useCommand(data:any){
 			}
 			state.queue.push({redo,undo})
 			state.currentIndex = currentIndex + 1
-			console.log(state.queue,state.currentIndex)
 		}
 		
 	}
@@ -42,7 +41,7 @@ export function useCommand(data:any){
 					if(state.currentIndex <= -1) return;
 					state.queue[state.currentIndex].undo()
 					state.currentIndex--
-					console.log(state.queue,state.currentIndex)
+					
 				}
 			}
 		}
@@ -61,11 +60,12 @@ export function useCommand(data:any){
 					state.queue[state.currentIndex].redo()
 					if(state.currentIndex === state.queue.length - 1) return
 					state.currentIndex++
-					console.log(state.queue,state.currentIndex)
+					
 				}
 			}
 		}
 	})
+	
 	register({
 		name:'drag',
 		queue:true,
@@ -84,7 +84,7 @@ export function useCommand(data:any){
 		},
 		execute(this:any){
 			let before = this.before
-			let after = data.value.blocks
+			let after = deepcopy(data.value.blocks)
 			return {
 				// 前进
 				redo(){
