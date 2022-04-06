@@ -1,7 +1,7 @@
 import deepcopy from 'deepcopy';
 import bus from '../../../public/bus'
 import {onUnmounted,onMounted} from 'vue'
-export function useCopy(focusComputed:any,data:any,callback:any){
+export function useCopy(focusComputed:any,data:any,workCanvasRef:any,scaleShow:any,scaleValue:any,callback:any){
 	
 	let saveSelectBlock = null as any
 	
@@ -48,6 +48,32 @@ export function useCopy(focusComputed:any,data:any,callback:any){
 		}
 		
 	}
+	// 监听鼠标滚动,实现画布的缩放
+	let scale = 1
+	let scaleTimeOut = null as any
+	const scrollFunc = (e:any)=>{
+		
+		if(e.shiftKey){
+			if(e.wheelDeltaY > 0){
+				// 上滚放大
+				scale = scale + 0.05
+				workCanvasRef.value.style.transform = `scale(${scale})`
+			}else{
+				// 下滚缩小
+				scale = scale - 0.05
+				workCanvasRef.value.style.transform = `scale(${scale})`
+			}
+			scaleValue.value = (scale*100).toFixed(0)+'%'
+			scaleShow.value = true
+			if(scaleTimeOut){
+				clearTimeout(scaleTimeOut)
+			}
+			scaleTimeOut = setTimeout(()=>{
+				scaleShow.value = false
+			},2000)
+		}
+	}
+	
 	// 移除keydown事件
 	const removeKeypress = (val:any)=>{
 		if(val === 1){
@@ -56,11 +82,14 @@ export function useCopy(focusComputed:any,data:any,callback:any){
 			document.addEventListener("keydown", onkeydown)
 		}
 	}
-	bus.on("removeKeypress",removeKeypress)
 	
+	bus.on("removeKeypress",removeKeypress)
 	document.addEventListener("keydown", onkeydown)
+	document.addEventListener('mousewheel',scrollFunc);
+	
 	onUnmounted(()=>{
 		document.removeEventListener("keydown", onkeydown)
+		document.removeEventListener('mousewheel',scrollFunc);
 		bus.off("removeKeypress",removeKeypress)
 	})
 	return;

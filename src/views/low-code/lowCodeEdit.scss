@@ -26,6 +26,7 @@
 			right: 0;
 			margin: auto;
 			box-shadow: 0 0 10px 0 #555;
+			transform:scale(1)!important;
 			.block{
 				position: absolute;
 				&::before{
@@ -107,6 +108,18 @@
 			width: calc(100% - 500px);
 			height: 100%;
 			position: relative;
+			&-scale{
+				position: absolute;
+				right: 20px;
+				top: 5px;
+				height: 30px;
+				padding: 10px 30px;
+				box-sizing: border-box;
+				line-height: 8px;
+				box-shadow: 0 0 5px 0 #aaa;
+				color: white;
+				z-index: 8;
+			}
 			&-container{
 				width: 100%;
 				height: 100%;

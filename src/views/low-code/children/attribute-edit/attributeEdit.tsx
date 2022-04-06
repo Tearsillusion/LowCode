@@ -21,12 +21,13 @@ export default defineComponent({
 		}
 		// 失去焦点
 		const onBlur = (e:any,key:string,type:number)=>{
+			bus.emit("removeKeypress",2)
 			if(type === 1){
 				props.canvas[key] = e.target.value
 				return;
 			}
 			props.blocks[key] = Number(e.target.value)?Number(e.target.value):e.target.value
-			bus.emit("removeKeypress",2)
+			
 		}
 		
 		// 获取焦点

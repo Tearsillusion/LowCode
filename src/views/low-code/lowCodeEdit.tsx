@@ -27,6 +27,8 @@ export default defineComponent({
 		let workCanvasRef = ref<any>(null)
 		let workPreviewRef = ref<any>(null)
 		let previewShow = ref<any>(false)
+		let scaleValue = ref<any>(1)
+		let scaleShow = ref<any>(false)
 		let workCanvas = null as any
 		let data: Ref<any> = computed({
 			get(){
@@ -58,7 +60,7 @@ export default defineComponent({
 		// 实现拖拽放大缩小功能
 		useDraw(focusComputed,data)
 		// 实现快捷键复制和撤销功能
-		useCopy(focusComputed,data,(val:number)=>{
+		useCopy(focusComputed,data,workCanvasRef,scaleShow,scaleValue,(val:number)=>{
 			if(val === 1){
 				state.commandList.undo()
 			}else{
@@ -67,12 +69,14 @@ export default defineComponent({
 		})
 		// 预览
 		let {previewClick,previewModelClick} = usePreview(previewShow,workCanvasRef,workPreviewRef)
-		
+		// 导出
+		// useExport()
 		// 撤销,还原
 		let buttonList = [
 			{label:'撤销',keyBoard:'ctrl+z',render:()=>{state.commandList.undo()}},
 			{label:'还原',keyBoard:'ctrl+q',render:()=>{state.commandList.redo()}},
 			{label:'预览',keyBoard:'ctrl+r',render:()=>{previewClick()}},
+			{label:'导出',keyBoard:'',render:()=>{ctx.emit("onExport",workCanvasRef)}},
 		] as any[]
 		// 接受拖拽开始的数据
 		return ()=> {
@@ -85,6 +89,8 @@ export default defineComponent({
 				)
 			}
 			return<div class="low-code-container">
+						{/*导出*/}
+						
 						{/*预览区*/}
 						{previewCode}
 						<div class="low-code-container-top">
@@ -119,6 +125,10 @@ export default defineComponent({
 							</div>
 							{/*工作区*/}
 							<div class="low-code-container-bottom-work">
+								{
+									scaleShow.value?<div class="low-code-container-bottom-work-scale">当前缩放: {scaleValue.value}</div>:""
+									
+								}
 								<div class="low-code-container-bottom-work-container">
 									<div onMousedown = {workMousedown} ref={workCanvasRef}   style={canvasStyle.value}  class="low-code-container-bottom-work-canvas">
 										{
