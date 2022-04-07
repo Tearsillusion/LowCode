@@ -6,6 +6,28 @@ export function attribute(block:any){
 	const register=(attribute:any)=>{
 		state.attributes[attribute.key] = attribute
 	}
+	
+	let baseStyle = {
+		left:'',
+		top:'',
+		width:'',
+		height:'',
+		color:'',
+		fontSize:'',
+		padding:'',
+		background:'',
+		borderWidth:'',
+		borderColor:'',
+		borderType:'',
+		borderRadius:'',
+		textAlign:'',
+		lineHeight:'',
+		boxShadow:'',
+		fontWeight:'',
+		fontFamily:'',
+		display:'block'
+	}
+	
 	register({
 		key:'text',
 		attribute:[{
@@ -17,20 +39,7 @@ export function attribute(block:any){
 			}
 		},{
 			name:'基本属性',
-			children:{
-				left:'',
-				top:'',
-				width:'',
-				height:'',
-				color:'',
-				fontSize:'',
-				padding:'',
-				background:'',
-				borderWidth:'',
-				borderColor:'',
-				borderType:'',
-				borderRadius:'',
-			}
+			children:baseStyle
 		}],
 	})
 	register({  
@@ -44,20 +53,23 @@ export function attribute(block:any){
 			}
 		},{
 			name:'基本属性',
+			children:baseStyle
+		}],
+		
+	})
+	register({
+		key:'img',
+		attribute:[{
+			name:'标签参数',
 			children:{
-				left:'',
-				top:'',
-				width:'',
-				height:'',
-				color:'',
-				fontSize:'',
-				padding:'',
-				background:'',
-				borderWidth:'',
-				borderColor:'',
-				borderType:'',
-				borderRadius:'',
+				class:'',
+				title:'',
+				src:'',
+				alt:''
 			}
+		},{
+			name:'基本属性',
+			children:baseStyle
 		}],
 		
 	})
@@ -74,24 +86,25 @@ export function attribute(block:any){
 			}
 		},{
 			name:'基本属性',
-			children:{
-				left:'',
-				top:'',
-				width:'',
-				height:'',
-				color:'',
-				fontSize:'',
-				padding:'',
-				background:'',
-				borderWidth:'',
-				borderColor:'',
-				borderType:'',
-				borderRadius:'',
-			}
+			children:baseStyle
 		}],
 		
 	})
-	
+	register({
+		key:'del',
+		attribute:[{
+			name:'标签参数',
+			children:{
+				class:'',
+				title:'',
+				text:'',
+			}
+		},{
+			name:'基本属性',
+			children:baseStyle
+		}],
+		
+	})
 	
 	
 	return {state}

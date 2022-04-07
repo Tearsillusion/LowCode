@@ -9,18 +9,21 @@ export default defineComponent({
 		focus:{type:Object as any}
 	},
 	setup(props){
-		console.log()
+		console.log(props.blocks)
 		let blockRef = ref<any>(null)
 		//外部基本样式
 		const externalStyle:Ref<any> = computed(()=>({
+			position:'absolute',
 			left:`${props.blocks.left}px`,
 			top:`${props.blocks.top}px`,
 			zIndex:`${props.blocks.zIndex}px`,
+			fontSize:props.blocks.key==="img"?0:''
 		}))
 		// 内部基本样式
 		const insideStyle:Ref<any> = computed(()=>({
-			width:`${props.blocks.width}px`,
-			height:`${props.blocks.height}px`,
+			display:`${props.blocks.display}px`,
+			width:`${props.blocks.key!=="img"?props.blocks.width:props.blocks.width?props.blocks.width:50}px`,
+			height:`${props.blocks.key!=="img"?props.blocks.height:props.blocks.height?props.blocks.height:50}px`,
 			color:`${props.blocks.color}`,
 			fontSize:`${props.blocks.fontSize}px`,
 			padding:`${props.blocks.padding}px`,
@@ -29,15 +32,22 @@ export default defineComponent({
 			borderColor:`${props.blocks.borderColor}`,
 			borderType:`${props.blocks.borderType}`,
 			borderRadius:`${props.blocks.borderRadius}px`,
-			
+			textAlign:`${props.blocks.textAlign}`,
+			lineHeight:`${props.blocks.lineHeight}px`,
+			boxShadow:`${props.blocks.boxShadow}`,
+			fontWeight:`${props.blocks.fontWeight}`,
+			fontFamily:`${props.blocks.fontFamily}`,
 		}))
 		// 标签属性
+		props.blocks.class = 'webTeam' + new Date().getTime()
 		const attbutes:Ref<any> = computed(()=>({
 			className:`${props.blocks.class?props.blocks.class:""}`,
 			text:`${props.blocks.text?props.blocks.text:""}`,
 			title:`${props.blocks.title?props.blocks.title:""}`,
 			placeholder:`${props.blocks.placeholder?props.blocks.placeholder:""}`,
 			type:`${props.blocks.type?props.blocks.type:""}`,
+			src:`${props.blocks.src?props.blocks.src:""}`,
+			alt:`${props.blocks.alt?props.blocks.alt:""}`,
 		}))
 		
 		

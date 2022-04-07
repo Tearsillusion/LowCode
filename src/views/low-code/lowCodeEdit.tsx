@@ -40,21 +40,24 @@ export default defineComponent({
 		})
 		
 		const canvasStyle:Ref<any> = computed(()=>({
+				position: 'relative',
 				width:data.value.content.width+'px',
 				height:data.value.content.height+'px',
 				background:data.value.content.background
 			}))
 		
 		let mapping:any = inject('mapping')
-		
+		let lineTipSave = null
 		// 实现菜单的拖拽
-		let {dragenter,drop} = useMenuDrag(workCanvasRef,data)
+		let {dragenter} = useMenuDrag(workCanvasRef,data)
 		// 实现获取焦点
 		let {blockMousedown,workMousedown,focusComputed,selectBlock} = useFocus(data,(e:any)=>{
 			mousedownMain(e)
+			bus.emit("removeKeypress",2)
 		})
 		// 实现移动和辅助线功能
 		let {mousedownMain,lineTip}  = useMove(focusComputed,selectBlock,data)
+		
 		// 实现撤销功能
 		let { state } = useCommand(data)
 		// 实现拖拽放大缩小功能
@@ -102,7 +105,7 @@ export default defineComponent({
 									buttonList.map((res:any)=>{
 										
 										return (
-											<button title={res.keyBoard} class="hoverActive" onClick={res.render}>{res.label}</button>
+											<button onMousedown = {workMousedown} title={res.keyBoard} class="hoverActive" onClick={res.render}>{res.label}</button>
 										)
 										
 									})

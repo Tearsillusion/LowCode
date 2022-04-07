@@ -96,9 +96,8 @@
 			width: 200px;
 			height: 100%;
 			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			flex-direction: column;
+			justify-content: center;
+			overflow: auto;
 			flex-wrap: wrap;
 			padding: 20px 0;
 			box-sizing: border-box;

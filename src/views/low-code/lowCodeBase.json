@@ -6,24 +6,23 @@
 	},
 	"blocks":[
 		{
-			"left":100,
-			"top":100,
-			"zIndex":1,
 			"key":"text",
 			"show":0
 		},
 		{
-			"left":200,
-			"top":200,
-			"zIndex":1,
 			"key":"button",
 			"show":0
 		},
 		{
-			"left":300,
-			"top":300,
-			"zIndex":1,
+			"key":"img",
+			"show":0
+		},
+		{
 			"key":"input",
+			"show":0
+		},
+		{
+			"key":"del",
 			"show":0
 		}
 	]

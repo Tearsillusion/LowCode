@@ -32,10 +32,24 @@ registerConfig.register({
 	render:(styleValue:any,attbutes:any)=><button   style={styleValue}>{attbutes.text?attbutes.text:'渲染按钮'}</button>,
 	key:'button',
 })
+// img
+registerConfig.register({
+	label:'图片',
+	originally:()=><img src={require('../../../assets/icon-defalut.png')} style="width:60%">预览图片</img>,
+	render:(styleValue:any,attbutes:any)=><img src={attbutes.src?attbutes.src:require('../../../assets/icon-defalut.png')} alt={attbutes.alt}   style={styleValue}>{attbutes.text?attbutes.text:'渲染按钮'}</img>,
+	key:'img',
+})
 // input
 registerConfig.register({
 	label:'输入框',
 	originally:()=><input style="width:90%">预览按钮</input>,
 	render:(styleValue:any,attbutes:any)=><input type={attbutes.type}   placeholder={attbutes.placeholder?attbutes.placeholder:''} value={attbutes.text?attbutes.text:''} style={styleValue}></input>,
 	key:'input',
+})
+// del
+registerConfig.register({
+	label:'删除线',
+	originally:()=><del style="width:90%">预览del</del>,
+	render:(styleValue:any,attbutes:any)=><del style={styleValue}>{attbutes.text?attbutes.text:'渲染del'}</del>,
+	key:'del',
 })

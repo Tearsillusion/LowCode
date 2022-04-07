@@ -8,10 +8,23 @@
 		        <el-radio :label="3">React</el-radio>
 				<el-radio :label="4">小程序</el-radio>
 		    </el-radio-group>
+			<div><el-checkbox v-model="cssSplitValue">CSS是否分离</el-checkbox></div>
 		    <template #footer>
 		      <span class="dialog-footer">
 		        <el-button @click="dialogExport = false">Cancel</el-button>
 		        <el-button type="primary" @click="onExportClick">Confirm</el-button
+		        >
+		      </span>
+		    </template>
+		</el-dialog>
+		<el-dialog v-model="dialogCopy" title="界面源码" width="30%" draggable>
+		    <div class="copy-html" ref="copyHtmlRef">
+				<textarea rows="" cols="" :value="copyHtmlCode"></textarea> 
+			</div>
+		    <template #footer>
+		      <span class="dialog-footer">
+		        <el-button @click="dialogCopy = false">Cancel</el-button>
+		        <el-button type="primary" @click="onCopyClick">Copy</el-button
 		        >
 		      </span>
 		    </template>
@@ -35,9 +48,21 @@
 			let dialogExport = ref<Boolean>(false)
 			let exportType = ref<Number>(1)
 			let exportDom = null as any
+			let dialogCopy = ref<Boolean>(false)
+			let copyHtmlRef = ref<any>(null)
+			let copyHtmlCode = ref<any>("")
+			let cssSplitValue = ref<Boolean>(true)
+			// copy代码
+			function onCopyClick(){
+				
+			}
 			// 导出确定框
 			function onExportClick(){
-				useExport(exportType.value,exportDom.value)
+				useExport(exportType.value,exportDom.value,cssSplitValue.value,(val:string)=>{
+					copyHtmlCode.value = val
+					dialogExport.value = false
+					dialogCopy.value = true
+				})
 			}
 			// 展示导出选择框
 			function setExport(dom:any){
@@ -54,7 +79,12 @@
 				setExport,
 				onExportClick,
 				dialogExport,
-				exportType
+				exportType,
+				dialogCopy,
+				copyHtmlRef,
+				onCopyClick,
+				copyHtmlCode,
+				cssSplitValue
 			}
 		}
 		
@@ -66,5 +96,16 @@
 	.low-code{
 		width: 100%;
 		height: 100%;
+		.copy-html{
+			
+			textarea{
+				width: 100%;
+				height: 500px;
+				background-color: #222;
+				color: #abb2bf;
+				font-size: 16px;
+				font-weight:bold;
+			}
+		}
 	}
 </style>

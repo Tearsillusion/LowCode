@@ -1,4 +1,5 @@
 import {computed,ref} from 'vue'
+import bus from '../../../public/bus'
 export function useFocus(data:any,callback:any){
 	
 	let selectIndex = ref(-1)
@@ -13,6 +14,7 @@ export function useFocus(data:any,callback:any){
 			}
 		})
 		selectIndex.value = -1
+		bus.emit("removeLineTip")
 	}
 	// 鼠标按下
 	const blockMousedown = function(e:any,block:any,index:number){
@@ -48,6 +50,7 @@ export function useFocus(data:any,callback:any){
 		e.preventDefault()
 		e.stopPropagation()
 		clearFocusMain()
+		
 	}
 	return{
 		blockMousedown,

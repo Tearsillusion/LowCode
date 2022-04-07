@@ -1,4 +1,4 @@
-import {reactive} from 'vue'
+import {reactive,onUnmounted} from 'vue'
 import bus from '../../../public/bus'
 export function useMove(focusComputed:any,selectBlock:any,data:any){
 	
@@ -97,6 +97,16 @@ export function useMove(focusComputed:any,selectBlock:any,data:any){
 		document.addEventListener('mousemove',mousemoveMain)
 		document.addEventListener('mouseup',mouseupMain)
 	}
+	const removeLineTip = ()=>{
+		lineTip.x = null
+		lineTip.y = null
+	}
+	
+	bus.on("removeLineTip",removeLineTip)
+	
+	onUnmounted(()=>{
+		bus.on("removeLineTip",removeLineTip)
+	})
 	return{
 		mousedownMain,
 		lineTip

@@ -10,13 +10,16 @@ export function useCopy(focusComputed:any,data:any,workCanvasRef:any,scaleShow:a
 		// ctrl + c
 		if(e.ctrlKey && e.which === 67){
 			if(focusComputed.value.focus){
+				console.log(1111,focusComputed.value.focus)
 				saveSelectBlock = deepcopy(focusComputed.value.focus)
+				console.log(2222,saveSelectBlock)
 				bus.emit('start')
 			}
 		}
 		// ctrl + v
 		if(e.ctrlKey && e.which === 86){
 			if(saveSelectBlock){
+				console.log(3333,saveSelectBlock)
 				saveSelectBlock.map((res:any)=>data.value.blocks.push(res))
 				bus.emit('end')
 			}	
