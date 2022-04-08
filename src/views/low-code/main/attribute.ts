@@ -15,17 +15,18 @@ export function attribute(block:any){
 		color:'',
 		fontSize:'',
 		padding:'',
-		background:'',
-		borderWidth:'',
-		borderColor:'',
-		borderType:'',
-		borderRadius:'',
+		display:'block',
 		textAlign:'',
 		lineHeight:'',
 		boxShadow:'',
 		fontWeight:'',
 		fontFamily:'',
-		display:'block'
+		background:'',
+		borderWidth:'',
+		borderColor:'',
+		borderType:'',
+		borderRadius:'',
+		
 	}
 	
 	register({

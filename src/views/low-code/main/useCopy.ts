@@ -10,16 +10,13 @@ export function useCopy(focusComputed:any,data:any,workCanvasRef:any,scaleShow:a
 		// ctrl + c
 		if(e.ctrlKey && e.which === 67){
 			if(focusComputed.value.focus){
-				console.log(1111,focusComputed.value.focus)
 				saveSelectBlock = deepcopy(focusComputed.value.focus)
-				console.log(2222,saveSelectBlock)
 				bus.emit('start')
 			}
 		}
 		// ctrl + v
 		if(e.ctrlKey && e.which === 86){
 			if(saveSelectBlock){
-				console.log(3333,saveSelectBlock)
 				saveSelectBlock.map((res:any)=>data.value.blocks.push(res))
 				bus.emit('end')
 			}	
@@ -45,11 +42,18 @@ export function useCopy(focusComputed:any,data:any,workCanvasRef:any,scaleShow:a
 		if(e.ctrlKey && e.which === 90){
 			callback(1)
 		}
-		// ctrl + y 前进
+		// ctrl + y 还原
 		if(e.ctrlKey && e.which === 89){
 			callback(2)	
 		}
-		
+		// shift + r 预览
+		if(e.shiftKey && e.which === 82){
+			callback(3)	
+		}
+		// shift + e 导出
+		if(e.shiftKey && e.which === 69){
+			callback(4)	
+		}
 	}
 	// 监听鼠标滚动,实现画布的缩放
 	let scale = 1

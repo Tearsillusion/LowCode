@@ -1,6 +1,7 @@
 import bus from '../../../public/bus'
 import deepcopy from 'deepcopy';
 import {onUnmounted} from 'vue'
+import { ElMessage } from 'element-plus'
 export function useCommand(data:any){
 	const state = {
 		currentIndex:-1 as number,//存放指针
@@ -9,7 +10,7 @@ export function useCommand(data:any){
 		destroy:[] as any[],//销毁事件
 		queue:[] as any[],//存放队列
 	}
-	console.log(data.value)
+	
 	const register = (command:any)=>{
 		state.commandArray.push(command)
 		state.commandList[command.name] = ()=>{
@@ -38,7 +39,13 @@ export function useCommand(data:any){
 			return {
 				redo(){
 					
-					if(state.currentIndex <= -1) return;
+					if(state.currentIndex <= -1){
+						ElMessage({
+						    message: '已经没有可撤销的了',
+						    type: 'warning',
+						})
+						return;
+					} 
 					state.queue[state.currentIndex].undo()
 					state.currentIndex--
 					
@@ -54,11 +61,18 @@ export function useCommand(data:any){
 			return {
 				redo(){
 					
+					if(state.currentIndex === state.queue.length - 1) {
+						ElMessage({
+						    message: '已经没有可还原的了',
+						    type: 'warning',
+						})
+						
+						return
+					}
 					if(state.currentIndex==-1){
 						state.currentIndex = 0
 					}
 					state.queue[state.currentIndex].redo()
-					if(state.currentIndex === state.queue.length - 1) return
 					state.currentIndex++
 					
 				}

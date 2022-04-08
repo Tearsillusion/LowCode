@@ -19,7 +19,7 @@
 		</el-dialog>
 		<el-dialog v-model="dialogCopy" title="界面源码" width="30%" draggable>
 		    <div class="copy-html" ref="copyHtmlRef">
-				<textarea rows="" cols="" :value="copyHtmlCode"></textarea> 
+				<textarea ref="textAreaRef" rows="" cols="" :value="copyHtmlCode"></textarea> 
 			</div>
 		    <template #footer>
 		      <span class="dialog-footer">
@@ -37,6 +37,7 @@
 	import { ref,provide,watch } from 'vue'
 	import {registerConfig} from './low-code/main/mapping'
 	import {useExport} from './low-code/main/useExport'
+	import { ElMessage } from 'element-plus'
 	const baseData = require('./low-code/lowCodeBase.json') 
 	export default {
 		components:{
@@ -52,9 +53,15 @@
 			let copyHtmlRef = ref<any>(null)
 			let copyHtmlCode = ref<any>("")
 			let cssSplitValue = ref<Boolean>(true)
+			let textAreaRef = ref<any>(null)
 			// copy代码
 			function onCopyClick(){
-				
+				textAreaRef.value.select()
+				document.execCommand("copy");
+				ElMessage({
+				    message: '复制成功',
+				    type: 'success',
+				})
 			}
 			// 导出确定框
 			function onExportClick(){
@@ -84,7 +91,8 @@
 				copyHtmlRef,
 				onCopyClick,
 				copyHtmlCode,
-				cssSplitValue
+				cssSplitValue,
+				textAreaRef
 			}
 		}
 		

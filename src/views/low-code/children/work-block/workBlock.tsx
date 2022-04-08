@@ -9,7 +9,7 @@ export default defineComponent({
 		focus:{type:Object as any}
 	},
 	setup(props){
-		console.log(props.blocks)
+		
 		let blockRef = ref<any>(null)
 		//外部基本样式
 		const externalStyle:Ref<any> = computed(()=>({
@@ -35,8 +35,9 @@ export default defineComponent({
 			textAlign:`${props.blocks.textAlign}`,
 			lineHeight:`${props.blocks.lineHeight}px`,
 			boxShadow:`${props.blocks.boxShadow}`,
-			fontWeight:`${props.blocks.fontWeight}`,
 			fontFamily:`${props.blocks.fontFamily}`,
+			fontWeight:`${props.blocks.fontWeight}`,
+			
 		}))
 		// 标签属性
 		props.blocks.class = 'webTeam' + new Date().getTime()
